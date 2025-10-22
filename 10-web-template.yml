@@ -1,0 +1,54 @@
+---
+- name: Configure nginx and deploy web content
+  become: true
+  hosts: web
+  gather_facts: true
+  tasks:
+    - name: Copy nginx https conf to webserver
+      ansible.builtin.copy:
+        src: files/https.conf
+        dest: /etc/nginx/conf.d/https.conf
+        owner: root
+        group: root
+        mode: "0644"
+      register: httpsconf
+
+    - name: Use nginx example.internal template to webserver
+      ansible.builtin.template:
+        src: templates/example.internal.conf.j2
+        dest: /etc/nginx/conf.d/example.internal.conf
+        owner: root
+        group: root
+        mode: "0644"
+      register: exampleconf
+
+    - name: Create directory structure
+      ansible.builtin.file:
+        path: /var/www/example.internal/html/
+        state: directory
+        owner: root
+        group: root
+        mode: "0755"
+        setype: httpd_sys_content_t
+        recurse: true
+      register: webdir
+
+
+    - name: Copy index.html into var
+      ansible.builtin.copy:
+        src: files/index.html
+        dest: /var/www/example.internal/html/index.html
+        owner: root
+        group: root
+        mode: "0644"
+        setype: httpd_sys_content_t
+      register: indexfile
+
+    - name: Restart nginx service
+      ansible.builtin.service:
+        name: nginx
+        state: restarted
+      when: httpsconf.changed or
+            exampleconf.changed or
+            webdir.changed or
+            indexfile.changed

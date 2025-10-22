@@ -1,0 +1,15 @@
+---
+- name: Uninstall a webserver
+  hosts: web
+  become: true
+  tasks:
+    - name: Ensure nginx is disabled at boot
+      ansible.builtin.service:
+        name: nginx
+        enabled: true
+        state: stopped
+
+    - name: Ensure nginx is removed
+      ansible.builtin.package:
+        name: nginx
+        state: absent

@@ -1,0 +1,13 @@
+---
+- name: Copy .md files to deploy
+  hosts: db
+  become: true
+  tasks:
+    - name: copying the files
+      ansible.builtin.copy:
+        src: "{{ item }}"
+        dest: /home/deploy
+        owner: deploy
+        mode: "0644"
+      with_fileglob:
+        - "files/*.md"

@@ -1,0 +1,17 @@
+---
+- name: Add multiple users and groups
+  hosts: web
+  become: true
+  tasks:
+    - name: Adding users to groups
+      ansible.builtin.user:
+        name: "{{ item.name }}"
+        groups: "{{ item.groups }}"
+        password: $6$0OKJBevDHxE636wl$l26Y0ttVrVa98wnDQ6ahgU1moy1tuEwv1qwc0HYwMEXQ2QtGiYoSA7X0SFVeWGu1ls9rAPTtFZ/2gYMicLiya0
+        comment: "{{ item.realname }}"
+        state: present
+      loop:
+        - {name: "alovelace", groups: ["wheel,audio,video"], realname: "Ada Lovelace"}
+        - {name: "ghopper", groups: ["wheel,audio"], realname: "Grace Hopper"}
+        - {name: "aturing", groups: "tape", realname: "Alan Turing"}
+        - {name: "edijkstra", groups: "tcpdump", realname: "Edsger W. Dijkstra"}

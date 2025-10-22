@@ -1,0 +1,17 @@
+---
+- name: Copy files to webserver and reload webserver
+  become: true
+  hosts: web
+  tasks:
+    - name: Copy files from host- to webserver
+      ansible.builtin.copy:
+        src: files/https.conf
+        dest: /etc/nginx/conf.d/https.conf
+        owner: root
+        group: root
+        mode: "0644"
+
+    - name: Restart nginx service
+      ansible.builtin.service:
+        name: nginx
+        state: restarted
