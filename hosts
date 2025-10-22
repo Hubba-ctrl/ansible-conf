@@ -3,8 +3,9 @@ ansible_user=deploy
 ansible_ssh_private_key_file=/home/hubba/devops24ci-cd/lab_environment/deploy_key
 
 [db]
-192.168.121.188
+#192.168.121.188 My computer froze so i just reinstalled my env on my laptop
+192.168.121.71
 
 [web]
-192.168.121.36
-
+#192.168.121.36
+192.168.121.150
