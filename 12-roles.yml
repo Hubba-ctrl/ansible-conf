@@ -11,5 +11,3 @@
   become: true
   roles:
     - dbserver
-  vars_files:
-    - vars/dbvault.yml

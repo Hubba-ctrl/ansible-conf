@@ -47,11 +47,3 @@
         password: secretpassword
         priv: webappdb.*:ALL
         login_unix_socket: /var/lib/mysql/mysql.sock
-
-
-- name: Create Mariadb user and grant * privileges on webbappd
-  community.mysql.mysql_user:
-        name: webappuser
-        password: "{{ webappdb_password }}"
-        priv: webappdb.*:ALL
-        login_unix_socket: /var/lib/mysql/mysql.sock

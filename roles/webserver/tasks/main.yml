@@ -22,7 +22,8 @@
     owner: root
     group: root
     mode: "0644"
-  register: httpsconf
+  notify:
+    - Reload nginx
 
 - name: Copy nginx example.internal configuration to webserver (TEMPLATE)
   ansible.builtin.template:
@@ -31,7 +32,8 @@
     owner: root
     group: root
     mode: "0644"
-  register: exampleconf
+  notify:
+    - Reload nginx
 
 - name: Create directory structure
   ansible.builtin.file:
@@ -41,7 +43,8 @@
     group: root
     mode: "0755"
     recurse: true
-  register: webdir
+  notify:
+    - Reload nginx
 
 - name: Copy index.html into web root
   ansible.builtin.copy:
@@ -50,10 +53,11 @@
     owner: root
     group: root
     mode: "0644"
-  register: indexfile
+  notify:
+    - Reload nginx
 
-- name: Restart nginx service if something changed
-  ansible.builtin.service:
-    name: nginx
-    state: restarted
-  when: httpsconf.changed or exampleconf.changed or webdir.changed or indexfile.changed
+# - name: Restart nginx service if something changed
+#   ansible.builtin.service:
+#     name: nginx
+#     state: restarted
+#   when: httpsconf.changed or exampleconf.changed or webdir.changed or indexfile.changed
