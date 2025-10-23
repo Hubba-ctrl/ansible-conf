@@ -1,0 +1,6 @@
+---
+- name: Don´t want ansible-lint complaints
+  hosts: localhost
+  remote_user: root
+  roles:
+    - dbserver

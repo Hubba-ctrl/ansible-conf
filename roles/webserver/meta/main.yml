@@ -1,0 +1,18 @@
+---
+galaxy_info:
+  author: Alexander Mobaraki
+  description: Student
+  company: Nackademin
+
+  license: GPL-2.0-or-later
+
+  min_ansible_version: Version 2.1
+
+  galaxy_tags:
+    - nginx
+    - web
+    - server
+    - http
+    - https
+
+dependencies: []

@@ -1,0 +1,59 @@
+---
+- name: Ensure nginx is installed
+  ansible.builtin.package:
+    name: nginx
+    state: present
+    # changed from latest to present to make it production-level
+
+- name: Ensure nginx is enabled at boot
+  ansible.builtin.service:
+    name: nginx
+    enabled: true
+
+- name: Ensure nginx is started
+  ansible.builtin.service:
+    name: nginx
+    state: started
+
+- name: Copy nginx https conf to webserver
+  ansible.builtin.copy:
+    src: https.conf
+    dest: /etc/nginx/conf.d/https.conf
+    owner: root
+    group: root
+    mode: "0644"
+  register: httpsconf
+
+- name: Copy nginx example.internal configuration to webserver (TEMPLATE)
+  ansible.builtin.template:
+    src: example.internal.conf.j2
+    dest: /etc/nginx/conf.d/example.internal.conf
+    owner: root
+    group: root
+    mode: "0644"
+  register: exampleconf
+
+- name: Create directory structure
+  ansible.builtin.file:
+    path: /var/www/example.internal/html/
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+    recurse: true
+  register: webdir
+
+- name: Copy index.html into web root
+  ansible.builtin.copy:
+    src: index.html
+    dest: /var/www/example.internal/html/index.html
+    owner: root
+    group: root
+    mode: "0644"
+  register: indexfile
+
+- name: Restart nginx service if something changed
+  ansible.builtin.service:
+    name: nginx
+    state: restarted
+  when: httpsconf.changed or exampleconf.changed or webdir.changed or indexfile.changed

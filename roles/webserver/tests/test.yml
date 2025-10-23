@@ -1,0 +1,6 @@
+---
+- name: Ansible-lint no complaints
+  hosts: localhost
+  remote_user: root
+  roles:
+    - webserver
