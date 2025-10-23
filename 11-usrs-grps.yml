@@ -7,11 +7,11 @@
       ansible.builtin.user:
         name: "{{ item.name }}"
         groups: "{{ item.groups }}"
-        password: $6$0OKJBevDHxE636wl$l26Y0ttVrVa98wnDQ6ahgU1moy1tuEwv1qwc0HYwMEXQ2QtGiYoSA7X0SFVeWGu1ls9rAPTtFZ/2gYMicLiya0
+        password: "{{ item.password }}"
         comment: "{{ item.realname }}"
         state: present
       loop:
-        - {name: "alovelace", groups: ["wheel,audio,video"], realname: "Ada Lovelace"}
-        - {name: "ghopper", groups: ["wheel,audio"], realname: "Grace Hopper"}
-        - {name: "aturing", groups: "tape", realname: "Alan Turing"}
-        - {name: "edijkstra", groups: "tcpdump", realname: "Edsger W. Dijkstra"}
+        - {name: "alovelace", groups: ["wheel,audio,video"], realname: "Ada Lovelace", password: "$6$rounds=656000$mysecretsalt$.eNM1ZJfq/ia987d11Zo4PGvKRbL7zwWqsxKBpLGGtTmt8bqmWECBvMYHW8grUoSYqkuFLLQjyWzti3fUvMKy/" }
+        - {name: "ghopper", groups: ["wheel,audio"], realname: "Grace Hopper", password: "$6$rounds=656000$mysecretsalt1$0NqUirlWOs5ERlHzR/0u0yS48p49RICictiBtMurMODai9lbeAz6B6Y2QKa/HcBFybH0bbQRsRzsbWetHS7Ab1" }
+        - {name: "aturing", groups: "tape", realname: "Alan Turing", password: "$6$rounds=656000$mysecretsalt2$ReJicY/SSapugSKtvw5XN62PlQSDqGRMm/yKhx3tXIK3U4b82.DPKS.l9cZR2aOr1szg1fq.NpDXOiNmkmc4Q/" }
+        - {name: "edijkstra", groups: "tcpdump", realname: "Edsger W. Dijkstra", password: "$6$rounds=656000$mysecretsalt3$m8qIPN9X.Kk6aKIn2bXl0Y8zA1ULHm5LVmMmEkrL/HJFgolVsjc9iT.d0IdmSA21Vl/AJeb6QrZBuhkKoEIuA0" }
