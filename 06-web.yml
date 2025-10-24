@@ -28,10 +28,7 @@
         owner: root
         group: root
         mode: "0755"
-        setype: httpd_sys_content_t
         recurse: true
-      register: webdir
-
 
     - name: Copy index.html into var
       ansible.builtin.copy:
