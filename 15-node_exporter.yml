@@ -51,7 +51,7 @@
         dest: /tmp/
         remote_src: true
 
-    - name: Copy binary file to usr/local
+    - name: Copy binary file to usr/sbin
       ansible.builtin.copy:
         src: /tmp/node_exporter-1.10.0.linux-amd64/node_exporter
         dest: /usr/sbin/node_exporter
