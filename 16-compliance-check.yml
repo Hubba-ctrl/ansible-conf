@@ -4,7 +4,7 @@
   become: true
   tasks:
     - name: Get package facts
-      ansible.builtin.package_facts: 
+      ansible.builtin.package_facts:
 
     - name: Get service facts
       ansible.builtin.service_facts:
@@ -50,7 +50,7 @@
         that:
           - "'firewalld.service' in ansible_facts.services"
         success_msg: "Firewalld service is installed."
-        fail_msg: "Firewalld service is not installed"
+        fail_msg: "Firewalld service is not  installed"
 
     - name: Assert firewalld service is running
       ansible.builtin.assert:

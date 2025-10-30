@@ -1,0 +1,20 @@
+---
+- name: Use my own anagrammer module
+  hosts: all
+  gather_facts: false
+
+  tasks:
+    - name: Test anagrammer default
+      anagrammer:
+        message: "{{ message | default(omit) }}"
+      register: result
+
+    - name: Show result
+      ansible.builtin.debug:
+        var: result
+
+    - name: test anagrammer
+      anagrammer:
+        message: "{{ item }}"
+      loop:
+        ["testar", "sirap i paris", "fail me"]
