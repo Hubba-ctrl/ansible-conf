@@ -97,3 +97,32 @@
     - {name: "ghopper", groups: ["wheel,audio"], realname: "Grace Hopper", password: "$6$rounds=656000$mysecretsalt1$0NqUirlWOs5ERlHzR/0u0yS48p49RICictiBtMurMODai9lbeAz6B6Y2QKa/HcBFybH0bbQRsRzsbWetHS7Ab1" }
     - {name: "aturing", groups: "tape", realname: "Alan Turing", password: "$6$rounds=656000$mysecretsalt2$ReJicY/SSapugSKtvw5XN62PlQSDqGRMm/yKhx3tXIK3U4b82.DPKS.l9cZR2aOr1szg1fq.NpDXOiNmkmc4Q/" }
     - {name: "edijkstra", groups: "tcpdump", realname: "Edsger W. Dijkstra", password: "$6$rounds=656000$mysecretsalt3$m8qIPN9X.Kk6aKIn2bXl0Y8zA1ULHm5LVmMmEkrL/HJFgolVsjc9iT.d0IdmSA21Vl/AJeb6QrZBuhkKoEIuA0" }
+
+- name: Install firewalld and python3-firewall
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: present
+  loop: [firewalld, python3-firewall]
+
+- name: Enable and start firewalld
+  ansible.builtin.service:
+    name: firewalld
+    enabled: true
+    state: started
+
+- name: Enable http,https webserver
+  ansible.posix.firewalld:
+    service: "{{ item }}"
+    permanent: true
+    state: enabled
+  loop: [http, https]
+  when: "'web' in group_names"
+  notify: Reload firewalld
+
+- name: Enable mariadb dbserver
+  ansible.posix.firewalld:
+    service: mysql
+    permanent: true
+    state: enabled
+  when: "'db' in group_names"
+  notify: Reload firewalld
